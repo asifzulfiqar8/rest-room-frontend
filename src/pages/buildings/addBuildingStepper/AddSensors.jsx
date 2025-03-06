@@ -19,13 +19,14 @@ import {
   getCroppedImg,
   exportSVG,
   updateSensorAttached,
+  polygonsLabelHandler,
 } from "../utils/addSensors";
-import Modal from '../../../components/modals/Modal'
-import Input from '../../../components/shared/input/Input'
-import Dropdown from '../../../components/shared/dropdown/Dropdown'
-import Button from '../../../components/shared/button/Button'
+import Modal from "../../../components/modals/Modal";
+import Input from "../../../components/shared/input/Input";
+import Dropdown from "../../../components/shared/dropdown/Dropdown";
+import Button from "../../../components/shared/button/Button";
 
-const BookParkingSpace = ({croppedImage}) => {
+const BookParkingSpace = () => {
   const canvasRef = useRef(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [isDrawingEnabled, setIsDrawingEnabled] = useState(false);
@@ -48,6 +49,7 @@ const BookParkingSpace = ({croppedImage}) => {
   const [selectedPolygon, setSelectedPolygon] = useState(null);
   const [sensorIdInput, setSensorIdInput] = useState("");
   const [selectedSensor, setSelectedSensor] = useState("");
+  const [color, setColor] = useState("#ffff00");
 
   const openSensorPopup = (polygon) => {
     setSelectedPolygon(polygon);
@@ -55,18 +57,35 @@ const BookParkingSpace = ({croppedImage}) => {
     setSensorIdInput("");
   };
 
-  const handleAddSensor = () => {
+  const handleAddSensor = (
+    sensorIdInput,
+    polygons,
+    selectedPolygon,
+    selectedSensor,
+    color,
+    setPolygons,
+    setSensorPopup
+  ) => {
     if (sensorIdInput) {
-      updateSensorAttached({
-        polygonId: selectedPolygon.id,
-        sensor: sensorIdInput,
-        sensorAttached: selectedSensor,
-        polygons,
-        setPolygons
-      });
+      const updatedPolygons = polygons.map((polygon) =>
+        polygon.id === selectedPolygon.id
+          ? {
+              ...polygon,
+              id: sensorIdInput,
+              sensorAttached: selectedSensor || sensorIdInput,
+              color: color,
+              fillColor: color,
+              labelPoint: polygon.labelPoint || "first",
+            }
+          : polygon
+      );
+      setPolygons(updatedPolygons);
       setSensorPopup(false);
+    } else {
+      // If sensorIdInput is empty, we do not allow the polygon to be drawn.
+      alert("without sensor id and sensor name polygon not draw");
     }
-  }
+  };
 
   const onCropComplete = (croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -75,7 +94,7 @@ const BookParkingSpace = ({croppedImage}) => {
   const handleCropConfirm = async () => {
     try {
       const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
-      console.log("restroom cropped image:", croppedImage)
+      console.log("restroom cropped image:", croppedImage);
       const img = new Image();
       img.src = croppedImage;
       img.onload = () => setImage(img);
@@ -140,7 +159,7 @@ const BookParkingSpace = ({croppedImage}) => {
               setDraggedPolygon,
               setCurrentPolygon,
               handleDeletePolygon,
-              openSensorPopup,
+              openSensorPopup
             )
           }
           onMouseDown={(event) =>
@@ -284,33 +303,70 @@ const BookParkingSpace = ({croppedImage}) => {
           </>
         )}
         {sensorPopup && selectedPolygon && (
-        <Modal title="Add Sensor" onClose={() => setSensorPopup(false)}>
-          <div className="flex flex-col gap-2">
-            <Input
-              type="text"
-              placeholder="Sensor Id"
-              label="Sensor Id"
-              value={sensorIdInput}
-              onChange={(e) => setSensorIdInput(e.target.value)}
-            />
-            <Dropdown
-              options={[
-                { option: "Sensor 1", value: "sensor-1" },
-                { option: "Sensor 2", value: "sensor-2" },
-              ]}
-              label="Sensor Name"
-              onSelect={(value) => setSelectedSensor(value)}
-            />
-            <div className="flex justify-center">
-              <Button
-                text="Add"
-                width="w-fit"
-                onClick={() => handleAddSensor()}
+          <Modal title="Add Sensor" onClose={() => setSensorPopup(false)}>
+            <div className="flex flex-col gap-2">
+              <Input
+                type="text"
+                placeholder="Sensor Id"
+                label="Sensor Id"
+                value={sensorIdInput}
+                onChange={(e) => setSensorIdInput(e.target.value)}
               />
+              <Dropdown
+                options={[
+                  { option: "Sensor 1", value: "sensor-1" },
+                  { option: "Sensor 2", value: "sensor-2" },
+                ]}
+                label="Sensor Name"
+                onSelect={(value) => setSelectedSensor(value)}
+              />
+              <Dropdown
+                defaultText={"first"}
+                options={[
+                  { option: "First-Point", value: "first" },
+                  { option: "Second-Point", value: "second" },
+                  { option: "Third-Point", value: "third" },
+                  { option: "Fourth-Point", value: "fourth" },
+                ]}
+                label="Label Positioning of polygon"
+                onSelect={(selectedOption) =>
+                  polygonsLabelHandler(
+                    selectedOption,
+                    selectedPolygon,
+                    polygons,
+                    setPolygons
+                  )
+                }
+              />
+
+              <div className="flex items-center gap-4">
+                <h1 className="font-bold text-xs">Select Color of Polygon</h1>
+                <input
+                  type="color"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                />
+              </div>
+              <div className="flex justify-center">
+                <Button
+                  text="Add"
+                  width="w-fit"
+                  onClick={() =>
+                    handleAddSensor(
+                      sensorIdInput,
+                      polygons,
+                      selectedPolygon,
+                      selectedSensor,
+                      color,
+                      setPolygons,
+                      setSensorPopup
+                    )
+                  }
+                />
+              </div>
             </div>
-          </div>
-        </Modal>
-      )}
+          </Modal>
+        )}
       </div>
     </div>
   );
