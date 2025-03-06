@@ -1,0 +1,24 @@
+@keyframes left {
+  0% {
+    transform: translateX(-15px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.animate-left {
+  animation: left 1s linear infinite;
+}
+
+@keyframes right {
+  0% {
+    transform: translateX(15px) translateY(10px);
+  }
+  100% {
+    transform: translateX(0px) translateY(10px);
+  }
+}
+.animate-right {
+  animation: right 1s linear infinite;
+}

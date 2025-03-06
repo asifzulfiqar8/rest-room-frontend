@@ -1,0 +1,59 @@
+
+.buttonColor{
+    background-color: #A449EB;
+}
+
+.button{
+
+    position: absolute;
+    top: 5%;
+    left: 50%;
+
+    button{
+
+        padding: 0.5rem 2rem;
+        border: 2px solid #A449EB;
+        border-radius: 5px;
+        color: #A449EB;
+        cursor: pointer;
+    }
+
+    @media screen and (max-width: 510px) {
+        
+        left: 57%;
+    }
+}
+
+#auth_banner{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url("../assets/images/auth/banner.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+
+    .textColor{ 
+        color: #A449EB;
+        font-weight: 400;
+    }
+
+    .mxautho{
+
+        max-width: 95vw;
+        margin: 0 auto;
+    }
+
+    form {
+
+        input{
+            
+            background-color: #f2e9e9fe;
+            border: none;
+        }
+
+        .topSpace{
+            text-align: center;
+            margin-top: 6rem;
+        }
+    }
+}

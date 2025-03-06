@@ -1,0 +1,92 @@
+
+.card {
+  padding: 20px;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+}
+
+.buildingInfo {
+  p {
+    
+    color: #202224;
+  }
+
+  h2 {
+    font-size: 30px;
+    line-height: 2;
+    color: #202224;
+    font-weight: bold;
+  }
+
+  .percent {
+    p {
+      span {
+        color: #00b69b;
+      }
+    }
+  }
+}
+
+.building_icon {
+  padding: 0.6rem 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 23px;
+}
+
+.bottomCard {
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: #f7f7f7;
+
+
+  .box {
+
+    background-color: #e8e2ff;
+    border-radius: 7px;
+  }
+
+  .cardButton {
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #078e9b;
+      color: white;
+      border-radius: 11px;
+    }
+  }
+
+  .numberTextColor {
+    color: #a449eb;
+    font-size: 24px;
+  }
+}
+
+.cardshadow{
+
+  box-shadow: -0rem -0rem 0rem rgba(0, 0, 0, 0.1), 0rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+.boxshadow{
+
+   box-shadow: -0.1rem -0.1rem 0.1rem rgba(0, 0, 0, 0.1), 0.1rem 0.1rem 0.2rem rgba(0, 0, 0, 0.1);
+   background-color: white;
+   padding: 1rem;
+   border-radius: 14px;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 1024px) {
+  #card_wraper {
+    grid-template-columns: repeat(2, 1fr); /* Two columns on tablets */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #card_wraper {
+    grid-template-columns: repeat(1, 1fr); /* Single column on mobile */
+  }
+}
