@@ -4,7 +4,7 @@ import Input from "../../../components/shared/input/Input";
 import Map from "../../../components/Map";
 import { useDispatch, useSelector } from "react-redux";
 import { setBuilding } from "../../../services/building/buildingSlice";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Mapping = ({ setCurrentStep }) => {
   const [mapping, setMapping] = useState({

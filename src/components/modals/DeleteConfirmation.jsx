@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Button from "../shared/button/Button";
 import { useDeleteSingleSensorMutation } from "../../services/sensor/sensorApi";
 

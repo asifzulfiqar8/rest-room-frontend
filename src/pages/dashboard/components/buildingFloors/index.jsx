@@ -18,12 +18,12 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { IoLocationSharp } from "react-icons/io5";
 import { BsQrCode } from "react-icons/bs";
 import { FaSquare } from "react-icons/fa";
 
-import rawBuilding from "../../../../assets/images/raw-building.png"
+import rawBuilding from "../../../../assets/images/raw-building.png";
 
 const BuildingFloors = ({ floorType = "All Floors" }) => {
   const id = useParams().id;

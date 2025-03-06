@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 // import { useCreateUserProfileMutation, useGetUserProfileQuery, useGetUserQuery } from "../../../redux/api/userApi";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Button from "../../../../components/shared/button/Button";
 import Input from "../../../../components/shared/input/Input";
 import {

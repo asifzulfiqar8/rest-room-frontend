@@ -3,7 +3,7 @@ import Button from "../../../components/shared/button/Button";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 import { useUpdateMyProfileMutation } from "../../../services/auth/authApi";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const ChangePassword = () => {
   const [oldPasswordType, setOldPasswordType] = useState("text");
@@ -18,7 +18,8 @@ const ChangePassword = () => {
 
   const changePasswordHandler = async (e) => {
     e.preventDefault();
-    if (newPassword !== confirmPassword) return toast.error("New password and confirm password do not match.");
+    if (newPassword !== confirmPassword)
+      return toast.error("New password and confirm password do not match.");
     const formData = new FormData();
     formData.append("oldPassword", oldPassword);
     formData.append("newPassword", newPassword);
@@ -37,8 +38,13 @@ const ChangePassword = () => {
   return (
     <div className="parentContainer min-h-screen">
       <div className="piechart p-4 md:p-5">
-        <h3 className="text-lg md:text-xl font-[500] mb-4 xl:mb-0">Change Password</h3>
-        <form className="bg-white rounded-[15px] mt-4 p-5 gap-4 border-[2px]" onSubmit={changePasswordHandler}>
+        <h3 className="text-lg md:text-xl font-[500] mb-4 xl:mb-0">
+          Change Password
+        </h3>
+        <form
+          className="bg-white rounded-[15px] mt-4 p-5 gap-4 border-[2px]"
+          onSubmit={changePasswordHandler}
+        >
           <div className="grid grid-cols-1 gap-3">
             <Input
               type={oldPasswordType ? "password" : "text"}

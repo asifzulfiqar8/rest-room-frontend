@@ -8,7 +8,7 @@ import { GoDotFill } from "react-icons/go";
 import { IoIosArrowForward, IoIosLogOut } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import authApi, { useLogoutMutation } from "../../../../services/auth/authApi";
 import { userNotExist } from "../../../../services/auth/authSlice";
 import Notifications from "./Notifications";

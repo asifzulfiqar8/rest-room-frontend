@@ -5,7 +5,7 @@ import Modal from "../../components/modals/Modal";
 import Dropdown from "../../components/shared/dropdown/Dropdown";
 import Input from "../../components/shared/input/Input";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useUpdateMyProfileMutation } from "../../services/auth/authApi";
 
 const intervalTimesInSeconds = [
@@ -73,7 +73,8 @@ const Configuration = ({ refetch }) => {
         formData.append("customDbPassword", formValues.password);
         formData.append("customDbName", formValues.dbName);
       }
-      if (selectedOption === "Local Database") formData.append("isCustomDb", "false");
+      if (selectedOption === "Local Database")
+        formData.append("isCustomDb", "false");
       formData.append("interval", formValues.timeInterval);
 
       const response = await updateProfile(formData).unwrap();
@@ -89,8 +90,12 @@ const Configuration = ({ refetch }) => {
 
   useEffect(() => {
     if (user) {
-      const interval = intervalTimesInSeconds.find((item) => item.value == user?.interval);
-      setSelectedOption(user?.isCustomDb ? "Remote Database" : "Local Database");
+      const interval = intervalTimesInSeconds.find(
+        (item) => item.value == user?.interval
+      );
+      setSelectedOption(
+        user?.isCustomDb ? "Remote Database" : "Local Database"
+      );
       setTimeInterValText(interval?.option);
       setFormValues({
         hostName: user?.customDbHost || "",

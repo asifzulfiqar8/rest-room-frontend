@@ -9,7 +9,7 @@ import profilePic from "../../../assets/images/header/profilePic.png";
 import Notifications from "./Notifications";
 import authApi, { useLogoutMutation } from "../../../services/auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { userNotExist } from "../../../services/auth/authSlice";
 
 const Header = () => {

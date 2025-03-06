@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Input from "../../../../components/shared/input/Input";
 import Dropdown from "../../../../components/shared/dropdown/Dropdown";
 import Button from "../../../../components/shared/button/Button";

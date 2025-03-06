@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Input from "../../../../components/shared/input/Input";
 import Button from "../../../../components/shared/button/Button";
 

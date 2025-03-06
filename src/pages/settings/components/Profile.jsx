@@ -10,7 +10,7 @@ import {
   useGetMyProfileQuery,
   useUpdateMyProfileMutation,
 } from "../../../services/auth/authApi";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { userExist, userNotExist } from "../../../services/auth/authSlice";
 
 const genderOptions = [

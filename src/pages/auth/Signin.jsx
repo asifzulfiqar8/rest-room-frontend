@@ -3,7 +3,7 @@ import signinImage from "../../assets/images/auth/login.svg";
 import logo from "../../assets/images/auth/logo.svg";
 import blurImage from "../../assets/images/auth/bluer.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Input from "../../components/shared/input/Input";
 import Button from "../../components/shared/button/Button";
 import { useLoginMutation } from "../../services/auth/authApi";

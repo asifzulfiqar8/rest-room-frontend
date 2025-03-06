@@ -4,14 +4,14 @@ import signinImage from "../../assets/images/auth/signin.svg";
 import logo from "../../assets/images/auth/logo.svg";
 import blurImage from "../../assets/images/auth/bluer.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import Input from "../../components/shared/input/Input";
 import Button from "../../components/shared/button/Button";
 import { useSignupMutation } from "../../services/auth/authApi";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [signup, {isLoading}] = useSignupMutation()
+  const [signup, { isLoading }] = useSignupMutation();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -19,28 +19,29 @@ const Register = () => {
     confirmPassword: "",
   });
 
-  const formDataHandler = (e) => setFormData({...formData, [e.target.name]: e.target.value})
+  const formDataHandler = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const formSubmitHandler = async (e) => {
-    e.preventDefault()
-    const areFieldsEmpty = Object.values(formData).some(value => !value);
+    e.preventDefault();
+    const areFieldsEmpty = Object.values(formData).some((value) => !value);
 
-    if(formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not matched');
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Passwords do not matched");
       return;
     } else if (areFieldsEmpty) {
-      toast.error('Are field are required');
+      toast.error("Are field are required");
       return;
     }
 
     try {
-      await signup(formData).unwrap()
-      toast.success('Signup successful! You can now log in.')
-      navigate('/login')
+      await signup(formData).unwrap();
+      toast.success("Signup successful! You can now log in.");
+      navigate("/login");
     } catch (error) {
-      toast.error('User already exists or Internal Server error')
+      toast.error("User already exists or Internal Server error");
     }
-  }
+  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-12 min-h-screen">
@@ -135,7 +136,12 @@ const Register = () => {
                 />
               </div>
               <div>
-                <Button disabled={isLoading} text={isLoading ? 'Signing up...':'Sign up'} type="submit" width="w-full" />
+                <Button
+                  disabled={isLoading}
+                  text={isLoading ? "Signing up..." : "Sign up"}
+                  type="submit"
+                  width="w-full"
+                />
               </div>
 
               <div>
