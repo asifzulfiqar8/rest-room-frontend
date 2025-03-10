@@ -9,6 +9,7 @@ const BuildingModel = ({ setCurrentStep }) => {
   const dispatch = useDispatch();
   const [buildingModelImage, setBuildingModelImage] = useState(null);
   const [polygons, setPolygons] = useState([]);
+  const [file, setFile] = useState(null);
 
   const { buildingData } = useSelector((state) => state.building);
   console.log("buildingDAta", buildingData);
@@ -40,8 +41,9 @@ const BuildingModel = ({ setCurrentStep }) => {
   return (
     <div>
       <h6 className="text-base text-primary font-medium">Building Model</h6>
-      <div className="my-5">
+      <div className="my-5 flex justify-center">
         <MarkBuildingModel
+          setFile={setFile}
           buildingModelImage={buildingModelImage}
           setBuildingModelImage={setBuildingModelImage}
           polygons={polygons}

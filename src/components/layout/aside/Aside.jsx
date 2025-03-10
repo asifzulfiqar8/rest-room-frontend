@@ -74,6 +74,7 @@ const Aside = () => {
                 )}
                 {page.subPages && (
                   <div
+                    key={i}
                     className={`${
                       subpagesIsActive === page.title
                         ? "max-h-[280px] opacity-100 my-3"

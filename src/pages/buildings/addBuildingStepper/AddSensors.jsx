@@ -25,8 +25,9 @@ import Modal from "../../../components/modals/Modal";
 import Input from "../../../components/shared/input/Input";
 import Dropdown from "../../../components/shared/dropdown/Dropdown";
 import Button from "../../../components/shared/button/Button";
+import { useGetAllSensorsQuery } from "../../../services/sensor/sensorApi";
 
-const BookParkingSpace = () => {
+const BookParkingSpace = ({ image, setImage, polygons, setPolygons }) => {
   const canvasRef = useRef(null);
   const [imageSrc, setImageSrc] = useState(null);
   const [isDrawingEnabled, setIsDrawingEnabled] = useState(false);
@@ -34,9 +35,7 @@ const BookParkingSpace = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [showCropper, setShowCropper] = useState(false);
-  const [image, setImage] = useState(null);
   const [currentPolygon, setCurrentPolygon] = useState([]);
-  const [polygons, setPolygons] = useState([]);
   const [polygonCount, setPolygonCount] = useState(1);
   const [isEditMode, setIsEditMode] = useState(true);
   const [isCopyMode, setIsCopyMode] = useState(false);
@@ -50,6 +49,8 @@ const BookParkingSpace = () => {
   const [sensorIdInput, setSensorIdInput] = useState("");
   const [selectedSensor, setSelectedSensor] = useState("");
   const [color, setColor] = useState("#ffff00");
+  const [sensorData, setSensorData] = useState([]);
+  const { data } = useGetAllSensorsQuery();
 
   const openSensorPopup = (polygon) => {
     setSelectedPolygon(polygon);
@@ -122,6 +123,16 @@ const BookParkingSpace = () => {
       console.log("All Polygons Coordinates:", polygons);
     }
   }, [polygons]);
+
+  useEffect(() => {
+    if (data) {
+      const sensorOptions = data?.data?.map((sensor) => ({
+        option: sensor?.name,
+        value: sensor?._id,
+      }));
+      setSensorData(sensorOptions);
+    }
+  }, [data]);
 
   return (
     <div className="flex justify-center">
@@ -313,10 +324,7 @@ const BookParkingSpace = () => {
                 onChange={(e) => setSensorIdInput(e.target.value)}
               />
               <Dropdown
-                options={[
-                  { option: "Sensor 1", value: "sensor-1" },
-                  { option: "Sensor 2", value: "sensor-2" },
-                ]}
+                options={sensorData}
                 label="Sensor Name"
                 onSelect={(value) => setSelectedSensor(value)}
               />

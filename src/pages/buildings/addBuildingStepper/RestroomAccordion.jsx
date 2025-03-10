@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dropdown from "../../../components/shared/dropdown/Dropdown";
 import Input from "../../../components/shared/input/Input";
 import { IoAdd } from "react-icons/io5";
@@ -8,6 +8,8 @@ import AddSensors from "./AddSensors";
 import { useSelector } from "react-redux";
 
 const RestroomAccordion = ({ onDataChange }) => {
+  const [polygons, setPolygons] = useState([]);
+  const [image, setImage] = useState(null);
   const { buildingData } = useSelector((state) => state.building);
   const restRoomsLength = buildingData?.totalRestrooms || 1;
   const [restrooms, setRestrooms] = useState(
@@ -17,6 +19,8 @@ const RestroomAccordion = ({ onDataChange }) => {
       status: "",
       area: "",
       toilets: "",
+      restroomModelImage: "",
+      restroomModelCoordinates: [],
     }))
   );
 
@@ -35,6 +39,17 @@ const RestroomAccordion = ({ onDataChange }) => {
     onDataChange(updatedRestrooms);
   };
 
+  useEffect(() => {
+    if (image && polygons.length > 0) {
+      const updatedRestrooms = [...restrooms];
+      updatedRestrooms[activeAccordionIndex].restroomModelImage = image;
+      updatedRestrooms[activeAccordionIndex].restroomModelCoordinates =
+        polygons;
+      setRestrooms(updatedRestrooms);
+      onDataChange(updatedRestrooms);
+    }
+  }, [image, polygons]);
+
   return (
     <div className="flex flex-col gap-4">
       {restrooms.map((restroom, index) => (
@@ -44,13 +59,26 @@ const RestroomAccordion = ({ onDataChange }) => {
           onToggle={() => handleAccordionToggle(index)}
           data={restroom}
           onChange={(field, value) => handleInputChange(index, field, value)}
+          image={image}
+          setImage={setImage}
+          polygons={polygons}
+          setPolygons={setPolygons}
         />
       ))}
     </div>
   );
 };
 
-const Restroom = ({ isOpen, onToggle, data, onChange }) => {
+const Restroom = ({
+  isOpen,
+  onToggle,
+  data,
+  onChange,
+  image,
+  setImage,
+  polygons,
+  setPolygons,
+}) => {
   return (
     <div>
       {/* Accordion Header */}
@@ -119,7 +147,12 @@ const Restroom = ({ isOpen, onToggle, data, onChange }) => {
             onChange={(e) => onChange("toilets", e.target.value)}
           />
           <div className="lg:col-span-3 flex justify-center">
-            <AddSensors />
+            <AddSensors
+              image={image}
+              setImage={setImage}
+              polygons={polygons}
+              setPolygons={setPolygons}
+            />
           </div>
         </div>
       )}
