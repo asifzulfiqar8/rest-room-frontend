@@ -62,7 +62,7 @@ const MarkBuildingModel = ({
   const [selectedPolygon, setSelectedPolygon] = useState(null);
   const [sensorIdInput, setSensorIdInput] = useState("");
   const [selectedSensor, setSelectedSensor] = useState("No sensor");
-  const [color, setColor] = useState("#ffff00");
+  const [color, setColor] = useState("#A449EB");
   const [reEditModalOpen, setReEditModalOpen] = useState(false);
   const [selectedPolygonId, setSelectedPolygonId] = useState("");
   const [selectedPolygonSensor, setSelectedPolygonSensor] = useState("");
@@ -264,7 +264,7 @@ const MarkBuildingModel = ({
             >
               <LiaDrawPolygonSolid
                 fontSize={20}
-                color={isEditMode ? "rgba(3, 165, 224, 1)" : "#565656"}
+                color={isEditMode ? "#A449EB" : "#565656"}
               />
             </button>
             <button
@@ -285,7 +285,7 @@ const MarkBuildingModel = ({
             >
               <VscCopy
                 fontSize={20}
-                color={isCopyMode ? "rgba(3, 165, 224, 1)" : "#565656"}
+                color={isCopyMode ? "#A449EB" : "#565656"}
               />
             </button>
             <button
@@ -306,7 +306,7 @@ const MarkBuildingModel = ({
             >
               <RiEditBoxFill
                 fontSize={20}
-                color={isUpdateMode ? "rgba(3, 165, 224, 1)" : "#565656"}
+                color={isUpdateMode ? "#A449EB" : "#565656"}
               />
             </button>
             <button
@@ -327,7 +327,7 @@ const MarkBuildingModel = ({
             >
               <SlCursorMove
                 fontSize={20}
-                color={isMoveMode ? "rgba(3, 165, 224, 1)" : "#565656"}
+                color={isMoveMode ? "#A449EB" : "#565656"}
               />
             </button>
             <button
@@ -347,7 +347,7 @@ const MarkBuildingModel = ({
             >
               <AiOutlineDelete
                 fontSize={20}
-                color={isDeleteMode ? "rgba(3, 165, 224, 1)" : "#565656"}
+                color={isDeleteMode ? "#A449EB" : "#565656"}
               />
             </button>
           </div>
@@ -461,12 +461,38 @@ const MarkBuildingModel = ({
                 { option: "Sensor 2", value: "sensor-2" },
               ]}
               label="Sensor Name"
-              // onChange={(e) => setSelectedSensor(e.target.value)}
               onSelect={(selectedOption) =>
                 setSelectedPolygonSensor(selectedOption.value)
               }
             />
 
+            <Dropdown
+              defaultText={"first"}
+              options={[
+                { option: "First-Point", value: "first" },
+                { option: "Second-Point", value: "second" },
+                { option: "Third-Point", value: "third" },
+                { option: "Fourth-Point", value: "fourth" },
+              ]}
+              label="Label Positioning of polygon"
+              onSelect={(selectedOption) =>
+                polygonsLabelHandler(
+                  selectedOption,
+                  selectedPolygon,
+                  polygons,
+                  setPolygons
+                )
+              }
+            />
+
+            <div className="flex items-center gap-4">
+              <h1 className="font-bold text-xs">Select Color of Polygon</h1>
+              <input
+                type="color"
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
+              />
+            </div>
             <div className="flex justify-center">
               <Button
                 text="Update"
@@ -478,7 +504,8 @@ const MarkBuildingModel = ({
                     selectedPolygonId,
                     selectedPolygonSensor,
                     selectedSensor,
-                    setReEditModalOpen()
+                    color,
+                    setReEditModalOpen
                   )
                 }
               />

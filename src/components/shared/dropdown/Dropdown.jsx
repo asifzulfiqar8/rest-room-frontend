@@ -37,7 +37,7 @@ const Dropdown = ({
       ref={dropdownRef}
       style={{ width: width || "100%" }}
     >
-      <label className="block text-[#111111] text-sm mb-2 font-[600]">
+      <label className="block text-[#11111199] text-sm mb-2 font-medium">
         {label}
       </label>
       <button

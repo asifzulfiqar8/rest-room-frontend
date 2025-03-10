@@ -45,12 +45,12 @@ export const drawCanvas = ({
     context.closePath();
 
     // Fill the polygon with the color
-    context.fillStyle = `${polygon.color}${90}` || "#03a5e060";
-    context.strokeStyle = polygon.fillColor || "#03a5e0";
+    context.fillStyle = `${polygon.color}${90}` || "#A449EB60";
+    context.strokeStyle = polygon.fillColor || "#A449EB";
     context.fill();
 
     // Draw the border with the specified color
-    context.strokeStyle = polygon.fillColor || polygon.color || "#03a5e060";
+    context.strokeStyle = polygon.fillColor || polygon.color || "#A449EB60";
     context.lineWidth = 2;
     context.stroke();
 
@@ -101,7 +101,7 @@ export const drawCanvas = ({
     context.beginPath();
     context.moveTo(currentPolygon[0].x, currentPolygon[0].y);
     currentPolygon.forEach((point) => context.lineTo(point.x, point.y));
-    context.strokeStyle = "#03a5e0";
+    context.strokeStyle = "#A449EB";
     context.lineWidth = 2;
     context.stroke();
   }
@@ -257,8 +257,8 @@ export const exportSVG = async ({ canvasRef, image, polygons }) => {
   polygons.forEach((polygon) => {
     if (!polygon || !polygon.points) return;
 
-    const fillColor = `${polygon.color}${90}` || "#03a5e060";
-    const strokeColor = polygon.fillColor || polygon.color || "#03a5e060";
+    const fillColor = `${polygon.color}${90}` || "#A449EB60";
+    const strokeColor = polygon.fillColor || polygon.color || "#A449EB60";
 
     svgContent += `<polygon points="${polygon.points
       .map((point) => `${point.x},${point.y}`)
@@ -411,14 +411,14 @@ export const polygonsLabelHandler = (
   polygons,
   setPolygons
 ) => {
-  console.log("fjl;kasjdfl;kasjdfl;as", selectedOption, selectedPolygon);
+  console.log("In polygon label handler", selectedOption, selectedPolygon);
   let selectedPolygonId = selectedPolygon.id;
   setPolygons(
     polygons.map((poly) => {
       if (poly.id === selectedPolygonId) {
-        poly.labelPoint = selectedOption.value;
-        return poly;
-      } else return poly;
+        return { ...poly, labelPoint: selectedOption.value };
+      }
+      return poly;
     })
   );
 };

@@ -17,7 +17,11 @@ const Input = ({ type, label, icon, onIconClick, disabled, ...rest }) => {
   return (
     <div className="relative w-full">
       {/* Label */}
-      {label && <label className="block text-[#11111199] text-sm mb-2">{label}</label>}
+      {label && (
+        <label className="block text-[#11111199] text-sm mb-2 font-medium">
+          {label}
+        </label>
+      )}
 
       {/* Input Wrapper */}
       <div className="relative w-full">
@@ -40,7 +44,8 @@ const Input = ({ type, label, icon, onIconClick, disabled, ...rest }) => {
           <div className="pointer-events-none text-sm border-[1px] border-[#54545499] rounded-[6px] w-full px-[20px] py-[12px] text-[#414141] flex items-center">
             {fileName || (
               <>
-                Smart Building <span className="text-[#aaa] mx-2">OR</span> Drop Logo
+                Smart Building <span className="text-[#aaa] mx-2">OR</span> Drop
+                Logo
               </>
             )}
           </div>

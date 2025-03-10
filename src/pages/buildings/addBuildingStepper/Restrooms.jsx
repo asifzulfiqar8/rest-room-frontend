@@ -12,11 +12,11 @@ import Dropdown from "../../../components/shared/dropdown/Dropdown";
 import Input from "../../../components/shared/input/Input";
 import MarkBuildingModel from "./MarkBuildingModel";
 
-const AddFloors = ({ setCurrentStep }) => {
+const AddRestrooms = ({ setCurrentStep }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { buildingData } = useSelector((state) => state.building);
-  const [floorsState, setFloorsState] = useState([]);
+  const [restroomsState, setRestroomsState] = useState([]);
   const [sensorsOptions, setSensorsOptions] = useState([
     { option: "", value: "", icon: "" },
   ]);
@@ -27,7 +27,7 @@ const AddFloors = ({ setCurrentStep }) => {
     Array.from({ length: totalRestrooms }, () => 0)
   );
 
-  console.log("floorsState", floorsState);
+  console.log("restroomsState", restroomsState);
 
   // Toggle specific accordion
   const toggleAccordion = (index) => {
@@ -43,8 +43,8 @@ const AddFloors = ({ setCurrentStep }) => {
 
   // Check if all floors are filled to enable the Next button
   // const allFloorsFilled =
-  //   floorsState.length === floorsCount.length &&
-  //   floorsState.every(
+  //   restroomsState.length === floorsCount.length &&
+  //   restroomsState.every(
   //     (floor) =>
   //       floor.floorName &&
   //       floor.roomsCount &&
@@ -70,10 +70,10 @@ const AddFloors = ({ setCurrentStep }) => {
           isOpen={accordionState[i]}
           toggleAccordion={() => toggleAccordion(i)}
         >
-          <AddFloor
-            floorsState={floorsState}
-            setFloorsState={setFloorsState}
-            floorIndex={i}
+          <AddRestroom
+            restroomsState={restroomsState}
+            setRestroomsState={setRestroomsState}
+            restroomIndex={i}
             sensorsOptions={sensorsOptions}
             setSensorsOptions={setSensorsOptions}
             openNextAccordion={() => openNextAccordion(i)}
@@ -97,13 +97,13 @@ const AddFloors = ({ setCurrentStep }) => {
   );
 };
 
-export default AddFloors;
+export default AddRestrooms;
 
-// Reusing your AddFloor Component
-const AddFloor = ({
-  floorsState,
-  setFloorsState,
-  floorIndex,
+// Reusing your AddRestroom Component
+const AddRestroom = ({
+  restroomsState,
+  setRestroomsState,
+  restroomIndex,
   sensorsOptions,
   setSensorsOptions,
   openNextAccordion,
@@ -143,15 +143,15 @@ const AddFloor = ({
     //   return toast.error("Please Enter all Fields to Save");
     // }
 
-    // Save floor data into the floorsState
-    const newFloorState = [...floorsState];
-    newFloorState[floorIndex] = {
+    // Save floor data into the restroomsState
+    const newRestroomState = [...restroomsState];
+    newRestroomState[restroomIndex] = {
       ...formData,
       file,
       buildingModelImage,
       polygons,
     };
-    setFloorsState(newFloorState);
+    setRestroomsState(newRestroomState);
 
     // Open the next accordion
     openNextAccordion();
@@ -192,7 +192,7 @@ const AddFloor = ({
             onSelect={(value) => setFormData({ ...formData, status: value })}
           />
         </div>
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-6">
           <Input
             label="Area"
             type="text"
@@ -202,7 +202,7 @@ const AddFloor = ({
             onChange={formChangeHandler}
           />
         </div>
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-6">
           <Input
             label="Number Of Toilets"
             type="text"
@@ -213,10 +213,7 @@ const AddFloor = ({
           />
         </div>
       </form>
-      <div className="flex items-center justify-between gap-4">
-        <h3 className="text-sm md:text-base font-semibold text-[rgba(6,6,6,0.8)]">
-          Upload 2D Model Of Floor
-        </h3>
+      <div className="flex items-center justify-end gap-4">
         <div className="flex items-center gap-4">
           <div className="cursor-pointer bg-red-300 p-1 rounded-md">
             <MdDelete fontSize={22} color="white" />
