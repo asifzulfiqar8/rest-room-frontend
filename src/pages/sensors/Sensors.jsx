@@ -6,9 +6,14 @@ import { RiDeleteBin6Fill, RiEditBoxFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import DeleteConfirmation from "../../components/modals/DeleteConfirmation";
 import Modal from "../../components/modals/Modal";
-import { useGetAllSensorsQuery } from "../../services/sensor/sensorApi";
+import {
+  useGetAllSensorsQuery,
+  useUpdateSingleSensorMutation,
+} from "../../services/sensor/sensorApi";
 import AddSensor from "./AddSensor";
 import EditSensor from "./EditSensor";
+import ToggleButton from "../../components/shared/ToggleButton";
+import toast from "react-hot-toast";
 
 const columns = (modalOpenHandler, handleStatusToggle) => [
   {
@@ -34,15 +39,10 @@ const columns = (modalOpenHandler, handleStatusToggle) => [
   {
     name: "Status",
     selector: (row) => (
-      <label className="inline-flex items-center cursor-pointer">
-        <input
-          type="checkbox"
-          checked={row?.status === "active"}
-          onChange={() => handleStatusToggle(row)}
-          className="sr-only peer"
-        />
-        <div className="relative w-11 h-6 bg-[#7BC0F733] rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#50D450]"></div>
-      </label>
+      <ToggleButton
+        isChecked={row.status}
+        onToggle={() => handleStatusToggle(row._id, row?.status)}
+      />
     ),
   },
   {
@@ -74,11 +74,29 @@ const columns = (modalOpenHandler, handleStatusToggle) => [
 
 const Sensors = () => {
   const { data, isLoading, refetch } = useGetAllSensorsQuery();
+  const [updateSensor] = useUpdateSingleSensorMutation();
   const [modal, setModal] = useState(null);
   const [sensors, setSensors] = useState([]);
   const [selectedSensor, setSelectedSensor] = useState(null);
 
-  const handleStatusToggle = (sensor) => {};
+  console.log("data", data);
+
+  const handleStatusToggle = async (id, status) => {
+    try {
+      console.log("sensor", id, status);
+      const res = await updateSensor({
+        sensorId: id,
+        data: { status: !status },
+      }).unwrap();
+      if (res?.success) {
+        await refetch();
+        toast.success(res?.message || "Sensor status updated successfully");
+      }
+    } catch (error) {
+      console.log("Error while updating sensor status", error);
+      toast.error(error?.data?.message || "Error while updating sensor status");
+    }
+  };
 
   const modalOpenHandler = (type, sensor) => {
     setModal(type);
